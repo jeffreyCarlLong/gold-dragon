@@ -1,0 +1,54 @@
+---
+title: "ccleDb.Rmd"
+author: "Jeffrey Long"
+date: "5/14/2018"
+output: html_document
+---
+
+# Stub file for custom CCLE database query
+
+To do: create Shiny App
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Custom CCLE Database
+
+```{r}
+# install.packages("tidyverse")
+library("tidyverse")
+# install.packages("dbplyr")
+library("dbplyr")
+# install.packages("DBI")
+library("DBI")
+# setwd("/Users/jeffreylong/ccleDb")
+muts <- read_tsv("/Users/jeffreylong/ccleDb/data/legacy/CCLE_MUT_CNA_AMP_DEL_binary_Revealer.tsv", guess_max = 1500)
+```
+
+# DBI Loading
+
+```{r}
+con <- dbConnect(RSQLite::SQLite(), dbname = ":memory:")
+
+dbListTables(con)
+dbWriteTable(con, "muts", muts)
+dbListTables(con)
+
+dbListFields(con, "muts")
+dbReadTable(con, "muts")
+
+# Fetch all results:
+res <- dbSendQuery(con, "SELECT * FROM muts WHERE DMS53_LUNG = 1")
+dbFetch(res)
+dbClearResult(res)
+
+# Or a chunk at a time
+# res <- dbSendQuery(con, "SELECT * FROM muts WHERE DMS53_LUNG = 1")
+# while(!dbHasCompleted(res)){
+#   chunk <- dbFetch(res, n = 5)
+#   print(nrow(chunk))
+# }
+# dbClearResult(res)
+# dbDisconnect(con)
+```
