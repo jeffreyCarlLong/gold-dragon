@@ -1,3 +1,9 @@
 # gold-dragon
 
-Working with databases in R for pharmaceutical and cancer cell line encyclopeidia R markdown, Shiny app project.
+This repo holds several projects.
+
+Working with databases in R for pharmaceutical. 
+
+Cancer cell line encyclopeidia R markdown, Shiny app project.
+
+UCSC Genome Browser projects.
