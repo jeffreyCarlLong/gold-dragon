@@ -1,3 +1,7 @@
+[Imhann 2019- The 1000IBD project: multi-omics data of
+1000 inflammatory bowel disease patients;
+data release 1](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6325838/pdf/12876_2018_Article_917.pdf)
+
 [Multi-omics data of 1000 Inflammatory Bowel Disease patients - EGA European Genome-Phenome Archive](https://ega-archive.org/studies/EGAS00001002702)
 
 | Dataset ID      | Description                                                                                                                                                                                                                                                        | Technology          | Samples |
