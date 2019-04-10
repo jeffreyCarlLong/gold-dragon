@@ -4,6 +4,8 @@ data release 1](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6325838/pdf/12876_2
 
 ![](1000IBD_DataModel.png)
 
+[1000ibd.org](https://1000ibd.org/)
+
 ![](1000IBD_Logo.png)
 
 [Multi-omics data of 1000 Inflammatory Bowel Disease patients - EGA European Genome-Phenome Archive](https://ega-archive.org/studies/EGAS00001002702)
