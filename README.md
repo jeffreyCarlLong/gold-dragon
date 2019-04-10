@@ -1,9 +1,7 @@
 # gold-dragon
 
-This repo holds several projects.
+Working with databases in R.
 
-Working with databases in R for pharmaceutical. 
+Working with RDF visualizations using D3.
 
-Cancer cell line encyclopeidia R markdown, Shiny app project.
-
-UCSC Genome Browser projects.
+![A static picture of an interactive RDF knowledge graph](rdfD3.png)
