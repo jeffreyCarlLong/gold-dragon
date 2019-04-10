@@ -1,7 +1,5 @@
 # gold-dragon
 
-Working with databases in R.
-
-Working with RDF visualizations using D3.
+Working with RDF visualizations using D3, d3Rdf.Rhtml.
 
 ![A static picture of an interactive RDF knowledge graph](rdfD3.png)
