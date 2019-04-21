@@ -5,6 +5,7 @@
 	<title>Inflammatory Bowel Disease Use Case</title>
 	<meta name="author" content="Jeffrey Long">
 	<meta name="reference" content="https://github.com/Rathachai/d3rdf">
+	<meta name="reference" content="https://www.mdcalc.com/mayo-score-disease-activity-index-dai-ulcerative-colitis">
 	
 	<style type="text/css">
 		.node {
@@ -196,11 +197,43 @@
   			{subject:"patients", 	predicate:"have treatment", 	object:"Etrolizumab 100 mg"},
   			{subject:"inflammatory bowel disease", 	predicate:"has clinical trial", 	object:"Laurel"},
   			{subject:"inflammatory bowel disease", 	predicate:"has clinical trial", 	object:"Hickory"},
-  			{subject:"Mayo Clinic Score", 		predicate:"is comprised of", 	object:"stool frequency"},
-  			{subject:"Mayo Clinic Score", 		predicate:"is comprised of", 	object:"rectal bleeding"},
-  			{subject:"Mayo Clinic Score", 		predicate:"is comprised of", 	object:"mucosal appearance at endoscopy"},
-  			{subject:"Mayo Clinic Score", 		predicate:"is comprised of", 	object:"physician rating of disease activity"},
-  			{subject:"inflammatory bowel disease", 		predicate:"has score", 	object:"Mayo Clinic Score"}
+  			{subject:"inflammatory bowel disease", 		predicate:"has score", 	object:"Mayo Clinic Score (MCS)"},
+  			{subject:"Mayo Clinic Score (MCS)", 		predicate:"is comprised of", 	object:"stool frequency (SF)"},
+  			{subject:"stool frequency (SF)", 		predicate:"increase", 	object:"SF increase none"},
+  			{subject:"stool frequency (SF)", 		predicate:"increase", 	object:"1-2 stools/day more than normal"},
+  			{subject:"stool frequency (SF)", 		predicate:"increase", 	object:"3-4 stools/day more than normal"},
+  			{subject:"stool frequency (SF)", 		predicate:"increase", 	object:">4 stools/day more than normal"},
+  			{subject:"SF increase none", 		predicate:"adds to MCS", 	object:"SF += 0"},
+  			{subject:"1-2 stools/day more than normal", 		predicate:"adds to MCS", 	object:"SF += 1"},
+  			{subject:"3-4 stools/day more than normal", 		predicate:"adds to MCS", 	object:"SF += 2"},
+  			{subject:">4 stools/day more than normal", 		predicate:"adds to MCS", 	object:"SF += 3"},
+  			{subject:"Mayo Clinic Score (MCS)", 		predicate:"is comprised of", 	object:"rectal bleeding (RB)"},
+  			{subject:"rectal bleeding (RB)", 		predicate:"has observation", 	object:"RB increase none"},
+  			{subject:"rectal bleeding (RB)", 		predicate:"has observation", 	object:"visible blood with stool less than half the time"},
+  			{subject:"rectal bleeding (RB)", 		predicate:"has observation", 	object:"visible blood with stool half the time or more"},
+  			{subject:"rectal bleeding (RB)", 		predicate:"has observation", 	object:"passing blood alone"},
+  			{subject:"RB increase none", 		predicate:"adds to MCS ", 	object:"RB += 0"},
+  			{subject:"visible blood with stool less than half the time", 		predicate:"adds to MCS", 	object:"RB += 1"},
+  			{subject:"visible blood with stool half the time or more", 		predicate:"adds to MCS", 	object:"RB += 2"},
+  			{subject:"passing blood alone", 		predicate:"adds to MCS", 	object:"RB += 3"},
+  			{subject:"Mayo Clinic Score (MCS)", 		predicate:"is comprised of", 	object:"mucosal appearance at endoscopy (ES)"},
+  			{subject:"mucosal appearance at endoscopy (ES)", 		predicate:"has observation", 	object:"ES normal or inactive"},
+  			{subject:"ES normal or inactive", 		predicate:"adds to MCS", 	object:"ES += 0"},
+  			{subject:"mucosal appearance at endoscopy (ES)", 		predicate:"has observation", 	object:"Mild disease (erythema, decreased vascular pattern, mild friability)"},
+  			{subject:"Mild disease (erythema, decreased vascular pattern, mild friability)", 		predicate:"adds to MCS ", 	object:"ES += 1"},
+  			{subject:"mucosal appearance at endoscopy (ES)", 		predicate:"has observation", 	object:"Moderate disease (marked erythema, absent vascular pattern, friability, erosions)"},
+  			{subject:"Moderate disease (marked erythema, absent vascular pattern, friability, erosions)", 		predicate:"adds to MCS", 	object:"ES += 2"},
+  			{subject:"mucosal appearance at endoscopy (ES)", 		predicate:"has observation", 	object:"Severe disease (spontaneous bleeding, ulceration)"},
+  			{subject:"Severe disease (spontaneous bleeding, ulceration)", 		predicate:"adds to MCS", 	object:"ES += 3"},
+  			{subject:"Mayo Clinic Score (MCS)", 		predicate:"is comprised of", 	object:"physician rating of disease activity (DA)"},
+  			{subject:"physician rating of disease activity (DA)", 		predicate:"has observation", 	object:"DA normal"},
+  			{subject:"DA normal", 		predicate:"adds to MCS", 	object:"DA += 0"},
+  			{subject:"physician rating of disease activity (DA)", 		predicate:"has observation", 	object:"DA mild"},
+  			{subject:"DA mild", 		predicate:"adds to MCS", 	object:"DA += 1"},
+  			{subject:"physician rating of disease activity (DA)", 		predicate:"has observation", 	object:"DA moderate"},
+  			{subject:"DA moderate", 		predicate:"adds to MCS", 	object:"DA += 2"},
+  			{subject:"physician rating of disease activity (DA)", 		predicate:"has observation", 	object:"DA severe"},
+  			{subject:"DA severe", 		predicate:"adds to MCS", 	object:"DA += 3"}
   		];
 		
 	var svg = d3.select("#svg-body").append("svg")
