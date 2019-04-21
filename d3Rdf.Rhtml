@@ -179,30 +179,36 @@
 	</script>
 </head>
 <body style="margin:20px;">
-  <h1>Visualizing IBD Use Case RDF using D3</h1>
+  <h1>EDIS Has A Use Case</h1>
   <div id="svg-body" class="panel-body"></div>
   <script>
   	var triples = [
-  			{subject:":EDIS", 	predicate:":hasA", 	object:":useCase"},
-  			{subject:":inflammatoryBowelDisease", 	predicate:":isA", 	object:":useCase"},
-  			{subject:":inflammatoryBowelDisease", 	predicate:"rdf:type", 		object:":indication"},
-  			{subject:":inflammatoryBowelDisease", 	predicate:":includes", 	object:":eukalyptus"},
-  			{subject:":inflammatoryBowelDisease", 	predicate:":includes", 	object:":laurel"},
-  			{subject:":inflammatoryBowelDisease", 	predicate:":includes", 	object:":hickory"},
-  			{subject:":eukalyptus", 		predicate:":hasAssay", 	object:":rnaSeq"},
-  			{subject:":eukalyptus", 		predicate:":hasAssay", 	object:":fluidym"},
-  			{subject:":laurel", 		predicate:":pendingAssay", 	object:":rnaSeq"},
-  			{subject:":hickory", 		predicate:":pendingAssay", 	object:":rnaSeq"},
-  			{subject:":laurel", 		predicate:":pendingAssay", 	object:":microbiome"},
-  			{subject:":hickory", 		predicate:":pendingAssay", 	object:":microbiome"}
+  			{subject:"EDIS", 	predicate:"has a", 	object:"use case"},
+  			{subject:"inflammatory bowel disease", 	predicate:"has a", 	object:"use case"},
+  			{subject:"inflammatory bowel disease", 	predicate:"is a", 		object:"indication"},
+  			{subject:"inflammatory bowel disease", 	predicate:"has clinical trial", 	object:"Eucalyptus"},
+  			{subject:"Eucalyptus", 	predicate:"has", 	object:"patients"},
+  			{subject:"Placebo", 	predicate:"have", 	object:"N = 41 (15 aTNF-naïve/ 25 aTNF-IRa)"},
+  			{subject:"Etrolizumab 300 mg + 420 mg LD", 	predicate:"have", 	object:"n = 39 (12 aTNF-naïve/ 25 aTNF-IRa)"},
+  			{subject:"Etrolizumab 100 mg", 	predicate:"have", 	object:"n = 39 (16 aTNF-naïve/ 22 aTNF-IRa)"},
+  			{subject:"patients", 	predicate:"have treatment", 	object:"Placebo"},
+  			{subject:"patients", 	predicate:"have treatment", 	object:"Etrolizumab 300 mg + 420 mg LD"},
+  			{subject:"patients", 	predicate:"have treatment", 	object:"Etrolizumab 100 mg"},
+  			{subject:"inflammatory bowel disease", 	predicate:"has clinical trial", 	object:"Laurel"},
+  			{subject:"inflammatory bowel disease", 	predicate:"has clinical trial", 	object:"Hickory"},
+  			{subject:"Mayo Clinic Score", 		predicate:"is comprised of", 	object:"stool frequency"},
+  			{subject:"Mayo Clinic Score", 		predicate:"is comprised of", 	object:"rectal bleeding"},
+  			{subject:"Mayo Clinic Score", 		predicate:"is comprised of", 	object:"mucosal appearance at endoscopy"},
+  			{subject:"Mayo Clinic Score", 		predicate:"is comprised of", 	object:"physician rating of disease activity"},
+  			{subject:"inflammatory bowel disease", 		predicate:"has score", 	object:"Mayo Clinic Score"}
   		];
 		
 	var svg = d3.select("#svg-body").append("svg")
-				.attr("width", 800)
-				.attr("height", 600)
+				.attr("width", 1200)
+				.attr("height", 900)
 				;
 				
-	var force = d3.layout.force().size([800, 600]);
+	var force = d3.layout.force().size([1200, 900]);
 	
 	var graph = triplesToGraph(triples);
 	
