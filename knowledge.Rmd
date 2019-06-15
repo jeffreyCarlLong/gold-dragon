@@ -1,0 +1,8 @@
+# KG Pub 
+
+This is an interesting publication on 3D knowledge graphs.
+
+[https://www.mdpi.com/1999-5903/10/8/81/htm](https://www.mdpi.com/1999-5903/10/8/81/htm)
+
+FOAF Use Case.
+
