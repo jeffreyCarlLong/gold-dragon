@@ -1,4 +1,0 @@
-Table of R Presentations
-GitHub
-R Packages
-Shiny Apps
