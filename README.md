@@ -1,3 +1,3 @@
-# gold-dragon
+# Knowledge Graphs in Shiny - gold-dragon
 
 ![](images/linkingScales.png)
