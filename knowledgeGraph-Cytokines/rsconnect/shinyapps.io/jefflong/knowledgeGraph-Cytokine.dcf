@@ -1,0 +1,13 @@
+name: knowledgeGraph-Cytokine
+title: knowledgeGraph-Cytokine
+username:
+account: jefflong
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4983233
+bundleId: 5184138
+url: https://jefflong.shinyapps.io/knowledgeGraph-Cytokine/
+when: 1635367656.9332
+lastSyncTime: 1635367656.93322
+asMultiple: FALSE
+asStatic: FALSE
