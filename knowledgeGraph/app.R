@@ -1,6 +1,7 @@
-# Data Democratization brought to you by Jeffrey Long
-# This app is a test of some Javascript code to get some 
-# knowledge graph functionality in Shiny
+# Force Directed Knowledge Graph 
+# brought to you by Jeffrey Long
+# This app uses Javascript code to allow interactive display
+# of force directed knowledge graphs in Shiny
 
 # Copyright 2021 Jeffrey Long
 
