@@ -1,3 +1,3 @@
 # gold-dragon
 
-![](edisHasAUseCase2.png)
+![](images/linkingScales.png)
