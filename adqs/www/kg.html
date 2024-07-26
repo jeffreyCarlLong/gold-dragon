@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Effys Knowledge Graph</title>
+<meta name="author" content="Jeffrey Long">
+<meta name="reference" content="https://github.com/Rathachai/d3rdf">
+
+<style type="text/css">
+.node {
+ stroke: #fff;
+ fill:#ddd;
+ stroke-width: 1.5px;
+}
+
+.link {
+ stroke: #999;
+ stroke-opacity: .6;
+ stroke-width: 1px;
+}
+
+marker {
+stroke: #999;
+fill:rgba(124,240,10,0);
+}
+
+.node-text {
+ font: 11px sans-serif;
+ fill:black;
+}
+
+.link-text {
+ font: 9px sans-serif;
+ fill:grey;
+}
+
+svg{
+border:1px solid black;
+}
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script>
+function filterNodesById(nodes,id){
+return nodes.filter(function(n) { return n.id === id; });
+}
+
+function triplesToGraph(triples){
+
+svg.html("");
+//Graph
+var graph={nodes:[], links:[]};
+
+//Initial Graph from triples
+triples.forEach(function(triple){
+var subjId = triple.subject;
+var predId = triple.predicate;
+var objId = triple.object;
+
+var subjNode = filterNodesById(graph.nodes, subjId)[0];
+var objNode  = filterNodesById(graph.nodes, objId)[0];
+
+if(subjNode==null){
+subjNode = {id:subjId, label:subjId, weight:1};
+graph.nodes.push(subjNode);
+}
+
+if(objNode==null){
+objNode = {id:objId, label:objId, weight:1};
+graph.nodes.push(objNode);
+}
+
+
+graph.links.push({source:subjNode, target:objNode, predicate:predId, weight:1});
+});
+
+return graph;
+}
+
+
+function update(){
+// ==================== Add Marker ====================
+svg.append("svg:defs").selectAll("marker")
+   .data(["end"])
+ .enter().append("svg:marker")
+   .attr("id", String)
+   .attr("viewBox", "0 -5 10 10")
+   .attr("refX", 30)
+   .attr("refY", -0.5)
+   .attr("markerWidth", 6)
+   .attr("markerHeight", 6)
+   .attr("orient", "auto")
+ .append("svg:polyline")
+   .attr("points", "0,-5 10,0 0,5")
+   ;
+
+// ==================== Add Links ====================
+var links = svg.selectAll(".link")
+.data(graph.links)
+.enter()
+.append("line")
+.attr("marker-end", "url(#end)")
+.attr("class", "link")
+.attr("stroke-width",1)
+;//links
+
+// ==================== Add Link Names =====================
+var linkTexts = svg.selectAll(".link-text")
+               .data(graph.links)
+               .enter()
+               .append("text")
+.attr("class", "link-text")
+.text( function (d) { return d.predicate; })
+;
+
+//linkTexts.append("title")
+// .text(function(d) { return d.predicate; });
+
+// ==================== Add Link Names =====================
+var nodeTexts = svg.selectAll(".node-text")
+               .data(graph.nodes)
+               .enter()
+               .append("text")
+.attr("class", "node-text")
+.text( function (d) { return d.label; })
+;
+
+//nodeTexts.append("title")
+// .text(function(d) { return d.label; });
+
+// ==================== Add Node =====================
+var nodes = svg.selectAll(".node")
+.data(graph.nodes)
+.enter()
+.append("circle")
+.attr("class", "node")
+.attr("r",8)
+.call(force.drag)
+;//nodes
+
+// ==================== Force ====================
+force.on("tick", function() {
+nodes
+.attr("cx", function(d){ return d.x; })
+.attr("cy", function(d){ return d.y; })
+;
+
+links
+.attr("x1", function(d) { return d.source.x; })
+       .attr("y1", function(d) { return d.source.y; })
+       .attr("x2", function(d) { return d.target.x; })
+       .attr("y2", function(d) { return d.target.y; })
+      ;
+ 
+nodeTexts
+.attr("x", function(d) { return d.x + 12 ; })
+.attr("y", function(d) { return d.y + 3; })
+;
+
+
+linkTexts
+.attr("x", function(d) { return 4 + (d.source.x + d.target.x)/2  ; })
+.attr("y", function(d) { return 4 + (d.source.y + d.target.y)/2 ; })
+;
+});
+
+// ==================== Run ====================
+force
+     .nodes(graph.nodes)
+     .links(graph.links)
+ .charge(-500)
+ .linkDistance(100)
+     .start()
+ ;
+}
+
+
+</script>
+</head>
+<body style="margin:20px;">
+  <h3>Example of a Force Directed Knowledge Graph</h3>
+  <div id="svg-body" class="panel-body"></div>
+<script>
+var triples = [
+{subject:"AB12345_AB12345-BRA-1-id-105_LOW", predicate:"has_instrument", object:"BFI_All_Questions"},
+{subject:"AB12345_AB12345-BRA-1-id-105_LOW", predicate:"has_instrument", object:"Fatigue_Interference"},
+{subject:"AB12345_AB12345-BRA-1-id-105_LOW", predicate:"has_instrument", object:"Function/Well-Being_GF1_GF3_GF7"},
+{subject:"AB12345_AB12345-BRA-1-id-105_LOW", predicate:"has_instrument", object:"Treatment_Side_Effects_GP2_C5_GP5"},
+{subject:"AB12345_AB12345-BRA-1-id-105_LOW", predicate:"has_instrument", object:"FKSI-19_All_Questions"},
+{subject:"AB12345_AB12345-BRA-1-id-134_HIGH", predicate:"has_instrument", object:"BFI_All_Questions"},
+{subject:"AB12345_AB12345-BRA-1-id-134_HIGH", predicate:"has_instrument", object:"Fatigue_Interference"},
+{subject:"AB12345_AB12345-BRA-1-id-134_HIGH", predicate:"has_instrument", object:"Function/Well-Being_GF1_GF3_GF7"},
+{subject:"AB12345_AB12345-BRA-1-id-134_HIGH", predicate:"has_instrument", object:"Treatment_Side_Effects_GP2_C5_GP5"},
+{subject:"AB12345_AB12345-BRA-1-id-134_HIGH", predicate:"has_instrument", object:"FKSI-19_All_Questions"},
+{subject:"AB12345_AB12345-BRA-1-id-141_LOW", predicate:"has_instrument", object:"BFI_All_Questions"},
+{subject:"AB12345_AB12345-BRA-1-id-141_LOW", predicate:"has_instrument", object:"Fatigue_Interference"},
+{subject:"AB12345_AB12345-BRA-1-id-141_LOW", predicate:"has_instrument", object:"Function/Well-Being_GF1_GF3_GF7"},
+{subject:"AB12345_AB12345-BRA-1-id-141_LOW", predicate:"has_instrument", object:"Treatment_Side_Effects_GP2_C5_GP5"},
+{subject:"AB12345_AB12345-BRA-1-id-141_LOW", predicate:"has_instrument", object:"FKSI-19_All_Questions"},
+{subject:"BFI_All_Questions", predicate:"has_pchg", object: "2"},
+{subject:"BFI_All_Questions", predicate:"has_pchg", object: "25"},
+{subject:"BFI_All_Questions", predicate:"has_pchg", object: "63"},
+{subject:"BFI_All_Questions", predicate:"has_pchg", object: "117"},
+{subject:"BFI_All_Questions", predicate:"has_pchg", object: "78"},
+{subject:"Fatigue_Interference", predicate:"has_pchg", object: "-14"},
+{subject:"Fatigue_Interference", predicate:"has_pchg", object: "33"},
+{subject:"Fatigue_Interference", predicate:"has_pchg", object: "50"},
+{subject:"Function/Well-Being_GF1_GF3_GF7", predicate:"has_pchg", object: "24"},
+{subject:"Function/Well-Being_GF1_GF3_GF7", predicate:"has_pchg", object: "61"},
+{subject:"Function/Well-Being_GF1_GF3_GF7", predicate:"has_pchg", object: "71"},
+{subject:"Function/Well-Being_GF1_GF3_GF7", predicate:"has_pchg", object: "108"},
+{subject:"Treatment_Side_Effects_GP2_C5_GP5", predicate:"has_pchg", object: "-4"},
+{subject:"Treatment_Side_Effects_GP2_C5_GP5", predicate:"has_pchg", object: "1"},
+{subject:"Treatment_Side_Effects_GP2_C5_GP5", predicate:"has_pchg", object: "11"},
+{subject:"FKSI-19_All_Questions", predicate:"has_pchg", object: "23"},
+{subject:"FKSI-19_All_Questions", predicate:"has_pchg", object: "55"},
+{subject:"FKSI-19_All_Questions", predicate:"has_pchg", object: "21"},
+{subject:"FKSI-19_All_Questions", predicate:"has_pchg", object: "80"},
+{subject:"BFI_All_Questions", predicate:"has_pchg", object: "6"},
+{subject:"BFI_All_Questions", predicate:"has_pchg", object: "42"},
+{subject:"BFI_All_Questions", predicate:"has_pchg", object: "46"},
+{subject:"BFI_All_Questions", predicate:"has_pchg", object: "41"},
+{subject:"Fatigue_Interference", predicate:"has_pchg", object: "10"},
+{subject:"Fatigue_Interference", predicate:"has_pchg", object: "38"},
+{subject:"Fatigue_Interference", predicate:"has_pchg", object: "32"},
+{subject:"Function/Well-Being_GF1_GF3_GF7", predicate:"has_pchg", object: "-28"},
+{subject:"Function/Well-Being_GF1_GF3_GF7", predicate:"has_pchg", object: "-16"},
+{subject:"Function/Well-Being_GF1_GF3_GF7", predicate:"has_pchg", object: "22"},
+{subject:"Function/Well-Being_GF1_GF3_GF7", predicate:"has_pchg", object: "35"},
+{subject:"Treatment_Side_Effects_GP2_C5_GP5", predicate:"has_pchg", object: "44"},
+{subject:"Treatment_Side_Effects_GP2_C5_GP5", predicate:"has_pchg", object: "106"},
+{subject:"FKSI-19_All_Questions", predicate:"has_pchg", object: "14"},
+{subject:"FKSI-19_All_Questions", predicate:"has_pchg", object: "43"},
+{subject:"FKSI-19_All_Questions", predicate:"has_pchg", object: "77"},
+{subject:"BFI_All_Questions", predicate:"has_pchg", object: "20"},
+{subject:"BFI_All_Questions", predicate:"has_pchg", object: "52"},
+{subject:"BFI_All_Questions", predicate:"has_pchg", object: "46"},
+{subject:"BFI_All_Questions", predicate:"has_pchg", object: "37"},
+{subject:"Fatigue_Interference", predicate:"has_pchg", object: "-29"},
+{subject:"Fatigue_Interference", predicate:"has_pchg", object: "7"},
+{subject:"Fatigue_Interference", predicate:"has_pchg", object: "5"},
+{subject:"Function/Well-Being_GF1_GF3_GF7", predicate:"has_pchg", object: "-15"},
+{subject:"Function/Well-Being_GF1_GF3_GF7", predicate:"has_pchg", object: "13"},
+{subject:"Function/Well-Being_GF1_GF3_GF7", predicate:"has_pchg", object: "30"},
+{subject:"Function/Well-Being_GF1_GF3_GF7", predicate:"has_pchg", object: "13"},
+{subject:"Function/Well-Being_GF1_GF3_GF7", predicate:"has_pchg", object: "66"},
+{subject:"Treatment_Side_Effects_GP2_C5_GP5", predicate:"has_pchg", object: "29"},
+{subject:"Treatment_Side_Effects_GP2_C5_GP5", predicate:"has_pchg", object: "72"},
+{subject:"Treatment_Side_Effects_GP2_C5_GP5", predicate:"has_pchg", object: "98"},
+];
+
+var svg = d3.select("#svg-body").append("svg")
+.attr("width", 1200)
+.attr("height", 900)
+;
+
+var force = d3.layout.force().size([1200, 900]);
+
+var graph = triplesToGraph(triples);
+
+update();
+
+  </script>
+ 
+
+  <footer style="margin-top:40px; padding:20px; height:50px; border-top:1px solid #eee; background:#fafafa; text-align:center">
+For more information contact <strong>jeffrey.x.long@gsk.com</strong>
+<br/>
+<a target="_blank" href="https://github.com/jeffreyCarlLong/gold-dragon">GitHub Repository for this Shiny App</a> | <a target="_blank" href="www.linkedin.com/in/jeffreycarllong">Linked-In of Developer</a>
+  </footer>
+</body>
